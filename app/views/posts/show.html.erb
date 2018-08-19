@@ -1,0 +1,29 @@
+<%= render 'shared/breadcrumb', category: @post.category %>
+<p id="notice"><%= notice %></p>
+<div class="container">
+ <h1> <%= @post.title %> </h1>
+  <%= image_tag @post.image.url(:large), class: 'img-show' if @post.image? %>
+  <small>
+    <time><%= @post.created_at.to_date.strftime("%d %B, %Y") %></time>
+    <%if @post.category.present? %>
+      |
+      <%= link_to @post.category.name, @post.category%>
+    <%end %>
+
+    <%if user_signed_in? %>
+    |
+    <%= link_to 'Изменить', edit_admin_post_path(@post) %>
+    |
+    <%= link_to 'Удалить', admin_post_path(@post), method: :delete, data: { confirm: 'Вы уверены?' } %>
+      <%end %>
+  </small>
+  <div class="h42"> <%= @post.summary %> </div>
+  <section class="post-body">
+
+   <div class="h42"> <%= @post.content.html_safe %> </div>
+  </section>
+
+</div>
+<div class="container">
+<%=render 'disqus' %>
+</div>
